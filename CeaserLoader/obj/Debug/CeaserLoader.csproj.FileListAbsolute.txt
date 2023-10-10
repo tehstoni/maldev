@@ -1,0 +1,8 @@
+C:\projects\osep\CeaserLoader\bin\Debug\CeaserLoader.exe.config
+C:\projects\osep\CeaserLoader\bin\Debug\CeaserLoader.exe
+C:\projects\osep\CeaserLoader\bin\Debug\CeaserLoader.pdb
+C:\projects\osep\CeaserLoader\obj\Debug\CeaserLoader.csproj.AssemblyReference.cache
+C:\projects\osep\CeaserLoader\obj\Debug\CeaserLoader.csproj.SuggestedBindingRedirects.cache
+C:\projects\osep\CeaserLoader\obj\Debug\CeaserLoader.csproj.CoreCompileInputs.cache
+C:\projects\osep\CeaserLoader\obj\Debug\CeaserLoader.exe
+C:\projects\osep\CeaserLoader\obj\Debug\CeaserLoader.pdb

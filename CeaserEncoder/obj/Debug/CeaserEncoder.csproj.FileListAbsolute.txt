@@ -1,0 +1,8 @@
+C:\projects\osep\CeaserEncoder\bin\Debug\CeaserEncoder.exe.config
+C:\projects\osep\CeaserEncoder\bin\Debug\CeaserEncoder.exe
+C:\projects\osep\CeaserEncoder\bin\Debug\CeaserEncoder.pdb
+C:\projects\osep\CeaserEncoder\obj\Debug\CeaserEncoder.csproj.AssemblyReference.cache
+C:\projects\osep\CeaserEncoder\obj\Debug\CeaserEncoder.csproj.SuggestedBindingRedirects.cache
+C:\projects\osep\CeaserEncoder\obj\Debug\CeaserEncoder.csproj.CoreCompileInputs.cache
+C:\projects\osep\CeaserEncoder\obj\Debug\CeaserEncoder.exe
+C:\projects\osep\CeaserEncoder\obj\Debug\CeaserEncoder.pdb
