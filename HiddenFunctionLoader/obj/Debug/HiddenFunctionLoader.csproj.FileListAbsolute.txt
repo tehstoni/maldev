@@ -1,0 +1,8 @@
+C:\projects\osep\HiddenFunctionLoader\bin\Debug\HiddenFunctionLoader.exe.config
+C:\projects\osep\HiddenFunctionLoader\bin\Debug\HiddenFunctionLoader.exe
+C:\projects\osep\HiddenFunctionLoader\bin\Debug\HiddenFunctionLoader.pdb
+C:\projects\osep\HiddenFunctionLoader\obj\Debug\HiddenFunctionLoader.csproj.AssemblyReference.cache
+C:\projects\osep\HiddenFunctionLoader\obj\Debug\HiddenFunctionLoader.csproj.SuggestedBindingRedirects.cache
+C:\projects\osep\HiddenFunctionLoader\obj\Debug\HiddenFunctionLoader.csproj.CoreCompileInputs.cache
+C:\projects\osep\HiddenFunctionLoader\obj\Debug\HiddenFunctionLoader.exe
+C:\projects\osep\HiddenFunctionLoader\obj\Debug\HiddenFunctionLoader.pdb
