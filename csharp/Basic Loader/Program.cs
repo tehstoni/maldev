@@ -30,15 +30,15 @@ namespace Basic_Loader
             {
                0x90,
                0x90,
-               0x90,
-               0x90
+               0xcc,
+               0xc3
             };
 
             // defining a size variable for the payload to use later
             int payloadSize = buf.Length;
 
             // allocating our memory based off of the location we want (anywhere), how much memory, and then the permissions.
-            IntPtr memoryAddress = VirtualAlloc(IntPtr.Zero, 0x4, 0x3000, 0x40);
+            IntPtr memoryAddress = VirtualAlloc(IntPtr.Zero, 0x1000, 0x3000, 0x40);
 
             // copy our payload into the memory address
             Marshal.Copy(buf, 0, memoryAddress, payloadSize);

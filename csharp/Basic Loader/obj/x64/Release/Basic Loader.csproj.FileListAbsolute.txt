@@ -1,0 +1,7 @@
+C:\projects\osep\csharp\Basic Loader\bin\x64\Release\Basic Loader.exe.config
+C:\projects\osep\csharp\Basic Loader\bin\x64\Release\Basic Loader.exe
+C:\projects\osep\csharp\Basic Loader\bin\x64\Release\Basic Loader.pdb
+C:\projects\osep\csharp\Basic Loader\obj\x64\Release\Basic Loader.csproj.AssemblyReference.cache
+C:\projects\osep\csharp\Basic Loader\obj\x64\Release\Basic Loader.csproj.CoreCompileInputs.cache
+C:\projects\osep\csharp\Basic Loader\obj\x64\Release\Basic Loader.exe
+C:\projects\osep\csharp\Basic Loader\obj\x64\Release\Basic Loader.pdb
