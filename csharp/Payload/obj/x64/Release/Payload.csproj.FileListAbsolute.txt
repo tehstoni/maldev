@@ -1,0 +1,7 @@
+\\192.168.45.223\visualstudio\Payload\bin\x64\Release\Payload.exe.config
+\\192.168.45.223\visualstudio\Payload\bin\x64\Release\Payload.exe
+\\192.168.45.223\visualstudio\Payload\bin\x64\Release\Payload.pdb
+\\192.168.45.223\visualstudio\Payload\obj\x64\Release\Payload.csprojAssemblyReference.cache
+\\192.168.45.223\visualstudio\Payload\obj\x64\Release\Payload.csproj.CoreCompileInputs.cache
+\\192.168.45.223\visualstudio\Payload\obj\x64\Release\Payload.exe
+\\192.168.45.223\visualstudio\Payload\obj\x64\Release\Payload.pdb

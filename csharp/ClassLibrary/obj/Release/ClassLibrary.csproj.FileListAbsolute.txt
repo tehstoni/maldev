@@ -1,0 +1,6 @@
+\\192.168.45.223\visualstudio\ClassLibrary\bin\Release\ClassLibrary.dll
+\\192.168.45.223\visualstudio\ClassLibrary\bin\Release\ClassLibrary.pdb
+\\192.168.45.223\visualstudio\ClassLibrary\obj\Release\ClassLibrary.csprojAssemblyReference.cache
+\\192.168.45.223\visualstudio\ClassLibrary\obj\Release\ClassLibrary.csproj.CoreCompileInputs.cache
+\\192.168.45.223\visualstudio\ClassLibrary\obj\Release\ClassLibrary.dll
+\\192.168.45.223\visualstudio\ClassLibrary\obj\Release\ClassLibrary.pdb
