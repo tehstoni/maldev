@@ -1,3 +1,9 @@
 
 *.exe
 *.obj
+c++/trivialoader/.vs/ProjectSettings.json
+c++/trivialoader/.vs/slnx.sqlite
+c++/trivialoader/.vs/trivialoader/FileContentIndex/2899354e-5d43-4a10-ba97-40646a763460.vsidx
+c++/trivialoader/.vs/trivialoader/v17/.wsuo
+c++/trivialoader/.vs/trivialoader/v17/Browse.VC.db
+c++/trivialoader/.vs/VSWorkspaceState.json
