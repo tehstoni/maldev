@@ -60,7 +60,7 @@ void evade(){
 
 	ULARGE_INTEGER start, end;
     	start.LowPart = startTime.dwLowDateTime;
-   	 start.HighPart = startTime.dwHighDateTime;
+   	start.HighPart = startTime.dwHighDateTime;
     	end.LowPart = endTime.dwLowDateTime;
     	end.HighPart = endTime.dwHighDateTime;
 	ULONGLONG elapsedTime = end.QuadPart - start.QuadPart;
